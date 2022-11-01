@@ -1,8 +1,10 @@
 /* eslint-disable prettier/prettier */
-import type {
+import {
+  Skia,
   SkiaMutableValue,
   SkMatrix,
   SkRect,
+  useSharedValueEffect,
 } from "@shopify/react-native-skia";
 import React from "react";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
@@ -10,6 +12,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from "react-native-reanimated";
+import { toMatrix3 } from "react-native-redash";
 
 interface GestureHandlerProps {
   matrix: SkiaMutableValue<SkMatrix>;
@@ -29,6 +32,18 @@ export const GestureHandlerV2 = ({
   const savedScale = useSharedValue(1);
   const rotation = useSharedValue(0);
   const savedRotation = useSharedValue(0);
+
+  useSharedValueEffect(() => {
+    console.log("scale");
+  }, scale);
+
+  useSharedValueEffect(() => {
+    console.log("offset");
+  }, offset);
+
+  useSharedValueEffect(() => {
+    console.log("rotation");
+  }, rotation);
 
   const style = useAnimatedStyle(() => ({
     position: "absolute",
@@ -76,9 +91,21 @@ export const GestureHandlerV2 = ({
       savedRotation.value = rotation.value;
     });
 
-  const composed = Gesture.Simultaneous(
-    dragGesture,
-    Gesture.Simultaneous(zoomGesture, rotateGesture)
+  const zoomOut = Gesture.Tap()
+    .numberOfTaps(2)
+    .onStart(() => {
+      scale.value = savedScale.value * 1.5;
+    })
+    .onEnd(() => {
+      savedScale.value = scale.value;
+    });
+
+  const composed = Gesture.Race(
+    zoomOut,
+    Gesture.Simultaneous(
+      dragGesture,
+      Gesture.Simultaneous(zoomGesture, rotateGesture)
+    )
   );
 
   return (
