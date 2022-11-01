@@ -27,7 +27,6 @@ interface HelloStickerProps {
 }
 
 export const HelloSticker = ({ matrix }: HelloStickerProps) => {
-  console.log(matrix);
   return (
     <Group matrix={matrix}>
       <Group transform={fitbox("contain", bounds, HelloStickerDimensions)}>
