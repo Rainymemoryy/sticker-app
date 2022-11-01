@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/consistent-type-imports */
 /* eslint-disable prettier/prettier */
 import {
-  Skia,
   SkiaMutableValue,
   SkMatrix,
   SkRect,
@@ -12,7 +12,6 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from "react-native-reanimated";
-import { toMatrix3 } from "react-native-redash";
 
 interface GestureHandlerProps {
   matrix: SkiaMutableValue<SkMatrix>;
