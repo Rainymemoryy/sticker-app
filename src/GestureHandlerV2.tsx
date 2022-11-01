@@ -33,15 +33,15 @@ export const GestureHandlerV2 = ({
   const savedRotation = useSharedValue(0);
 
   useSharedValueEffect(() => {
-    console.log("scale");
+    // console.log("scale");
   }, scale);
 
   useSharedValueEffect(() => {
-    console.log("offset");
+    // console.log("offset");
   }, offset);
 
   useSharedValueEffect(() => {
-    console.log("rotation");
+    // console.log("rotation");
   }, rotation);
 
   const style = useAnimatedStyle(() => ({
