@@ -13,6 +13,7 @@ import { HelloSticker, HelloStickerDimensions } from "./HelloSticker";
 import { LocationSticker, LocationStickerDimensions } from "./LocationSticker";
 import { GestureHandler } from "./GestureHandler";
 import { Picture, PictureDimensions } from "./Picture";
+import { GestureHandlerV2 } from "./GestureHandlerV2";
 
 const { width, height } = Dimensions.get("window");
 
@@ -20,7 +21,7 @@ const zurich = require("./assets/zurich.jpg");
 const aveny = require("./assets/aveny.ttf");
 
 export const Stickers = () => {
-  const pictureMatrix = useValue(Skia.Matrix());
+  // const pictureMatrix = useValue(Skia.Matrix());
   const helloMatrix = useValue(Skia.Matrix());
   const locationMatrix = useValue(Skia.Matrix());
   const image = useImage(zurich);
@@ -46,7 +47,7 @@ export const Stickers = () => {
           dimensions={HelloStickerDimensions}
           debug={true}
         />
-        <GestureHandler
+        <GestureHandlerV2
           matrix={locationMatrix}
           dimensions={LocationStickerDimensions}
           debug={true}

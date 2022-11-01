@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import type {
   SkiaMutableValue,
   SkMatrix,
@@ -28,17 +29,6 @@ export const GestureHandlerV2 = ({
   const savedScale = useSharedValue(1);
   const rotation = useSharedValue(0);
   const savedRotation = useSharedValue(0);
-
-  const animatedStyles = useAnimatedStyle(() => {
-    return {
-      transform: [
-        { translateX: offset.value.x },
-        { translateY: offset.value.y },
-        { scale: scale.value },
-        { rotateZ: `${rotation.value}rad` },
-      ],
-    };
-  });
 
   const style = useAnimatedStyle(() => ({
     position: "absolute",
