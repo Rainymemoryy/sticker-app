@@ -131,6 +131,16 @@ export const GestureHandlerV2 = ({
     .numberOfTaps(2)
     .onStart(() => {
       scale.value = savedScale.value * 1.5;
+      matrix.value = processTransform3d([
+        { translateX: offset.value.x },
+        { translateY: offset.value.y },
+        {
+          rotateZ: rotation.value,
+        },
+        {
+          scale: scale.value,
+        },
+      ]);
     })
     .onEnd(() => {
       savedScale.value = scale.value;

@@ -56,12 +56,10 @@ export const Stickers = () => {
         <GestureHandler
           matrix={helloMatrix}
           dimensions={HelloStickerDimensions}
-          debug={true}
         />
         <GestureHandlerV2
           matrix={locationMatrix}
           dimensions={LocationStickerDimensions}
-          debug={true}
         />
       </View>
     </SafeAreaView>
