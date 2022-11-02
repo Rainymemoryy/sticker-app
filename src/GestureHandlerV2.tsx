@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
 /* eslint-disable prettier/prettier */
 import {
+  Skia,
   SkiaMutableValue,
   SkMatrix,
   SkRect,
@@ -12,6 +13,15 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from "react-native-reanimated";
+import {
+  concat4,
+  identity4,
+  Matrix4,
+  multiply4,
+  processTransform3d,
+  toMatrix3,
+} from "react-native-redash";
+import { vec3 } from "./MatrixHelpers";
 
 interface GestureHandlerProps {
   matrix: SkiaMutableValue<SkMatrix>;
@@ -31,17 +41,51 @@ export const GestureHandlerV2 = ({
   const savedScale = useSharedValue(1);
   const rotation = useSharedValue(0);
   const savedRotation = useSharedValue(0);
+  const matrix = useSharedValue(identity4);
+
+  const origin = useSharedValue(vec3(0, 0, 0));
 
   useSharedValueEffect(() => {
-    // console.log("scale");
-  }, scale);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    skMatrix.current = Skia.Matrix(toMatrix3(matrix.value) as any);
+  }, matrix);
+
+  const setMatrix = () => {
+    // matrix.value = concat4(identity4, [
+    //   { translateX: offset.value.x },
+    //   { translateY: offset.value.y },
+    //   {
+    //     rotateZ: rotation.value,
+    //   },
+    //   {
+    //     scale: scale.value,
+    //   },
+    // ]);
+    matrix.value = processTransform3d([
+      { translateX: offset.value.x },
+      { translateY: offset.value.y },
+      {
+        rotateZ: rotation.value,
+      },
+      {
+        scale: scale.value,
+      },
+    ]);
+  };
 
   useSharedValueEffect(() => {
     // console.log("offset");
+    setMatrix();
   }, offset);
 
   useSharedValueEffect(() => {
+    // console.log("scale");
+    setMatrix();
+  }, scale);
+
+  useSharedValueEffect(() => {
     // console.log("rotation");
+    setMatrix();
   }, rotation);
 
   const style = useAnimatedStyle(() => ({

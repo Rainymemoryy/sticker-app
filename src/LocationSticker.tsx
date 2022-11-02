@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable max-len */
 import type { SkFont, SkiaValue, SkMatrix } from "@shopify/react-native-skia";
 import {
@@ -30,7 +31,7 @@ interface LocationStickerProps {
 export const LocationSticker = ({ matrix, font }: LocationStickerProps) => {
   return (
     <Group transform={[{ translateX: x }, { translateY: y }]}>
-      <Group matrix={matrix}>
+      <Group matrix={matrix} origin={{ x: width / 2, y: height / 2 }}>
         <RoundedRect
           color="white"
           rect={rrect(rect(0, 0, width, height), 15, 15)}
