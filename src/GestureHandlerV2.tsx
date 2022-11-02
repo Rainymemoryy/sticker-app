@@ -40,31 +40,6 @@ export const GestureHandlerV2 = ({
     skMatrix.current = Skia.Matrix(toMatrix3(matrix.value) as any);
   }, matrix);
 
-  // const setMatrix = () => {
-  //   matrix.value = processTransform3d([
-  //     { translateX: offset.value.x },
-  //     { translateY: offset.value.y },
-  //     {
-  //       rotateZ: rotation.value,
-  //     },
-  //     {
-  //       scale: scale.value,
-  //     },
-  //   ]);
-  // };
-
-  // useSharedValueEffect(() => {
-  //   setMatrix();
-  // }, offset);
-
-  // useSharedValueEffect(() => {
-  //   setMatrix();
-  // }, scale);
-
-  // useSharedValueEffect(() => {
-  //   setMatrix();
-  // }, rotation);
-
   const dragGesture = Gesture.Pan()
     .averageTouches(true)
     .onUpdate((e) => {

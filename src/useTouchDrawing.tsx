@@ -1,11 +1,16 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable no-lonely-if */
 import { useTouchHandler } from "@shopify/react-native-skia";
 
 export const useTouchDrawing = () => {
   return useTouchHandler({
-    onStart: ({ x, y }) => {},
-    onActive: ({ x, y }) => {},
-    onEnd: () => {},
+    onStart: ({ x, y }) => {
+      console.log("start", x, y);
+    },
+    onActive: ({ x, y }) => {
+      console.log("move", x, y);
+    },
+    onEnd: () => {
+      console.log("end");
+    },
   });
 };

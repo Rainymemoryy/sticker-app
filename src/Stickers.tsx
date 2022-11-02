@@ -16,6 +16,7 @@ import { GestureHandler } from "./GestureHandler";
 import { GestureHandlerV2 } from "./GestureHandlerV2";
 import { HelloSticker, HelloStickerDimensions } from "./HelloSticker";
 import { LocationSticker, LocationStickerDimensions } from "./LocationSticker";
+import { useTouchDrawing } from "./useTouchDrawing";
 
 const { width, height } = Dimensions.get("window");
 
@@ -23,17 +24,7 @@ const zurich = require("./assets/zurich.jpg");
 const aveny = require("./assets/aveny.ttf");
 
 export const Stickers = () => {
-  const touchHandle = useTouchHandler({
-    onStart: ({ x, y }) => {
-      console.log(x, y);
-    },
-    onActive: ({ x, y }) => {
-      console.log(x, y);
-    },
-    onEnd: () => {
-      console.log("end");
-    },
-  });
+  const touchHandle = useTouchDrawing();
   const helloMatrix = useValue(Skia.Matrix());
   const locationMatrix = useValue(Skia.Matrix());
   const image = useImage(zurich);
