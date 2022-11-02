@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/consistent-type-imports */
 /* eslint-disable prettier/prettier */
 import {
@@ -13,15 +14,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from "react-native-reanimated";
-import {
-  concat4,
-  identity4,
-  Matrix4,
-  multiply4,
-  processTransform3d,
-  toMatrix3,
-} from "react-native-redash";
-import { vec3 } from "./MatrixHelpers";
+import { identity4, processTransform3d, toMatrix3 } from "react-native-redash";
 
 interface GestureHandlerProps {
   matrix: SkiaMutableValue<SkMatrix>;
@@ -43,65 +36,34 @@ export const GestureHandlerV2 = ({
   const savedRotation = useSharedValue(0);
   const matrix = useSharedValue(identity4);
 
-  const origin = useSharedValue(vec3(0, 0, 0));
-
   useSharedValueEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     skMatrix.current = Skia.Matrix(toMatrix3(matrix.value) as any);
   }, matrix);
 
-  const setMatrix = () => {
-    // matrix.value = concat4(identity4, [
-    //   { translateX: offset.value.x },
-    //   { translateY: offset.value.y },
-    //   {
-    //     rotateZ: rotation.value,
-    //   },
-    //   {
-    //     scale: scale.value,
-    //   },
-    // ]);
-    matrix.value = processTransform3d([
-      { translateX: offset.value.x },
-      { translateY: offset.value.y },
-      {
-        rotateZ: rotation.value,
-      },
-      {
-        scale: scale.value,
-      },
-    ]);
-  };
+  // const setMatrix = () => {
+  //   matrix.value = processTransform3d([
+  //     { translateX: offset.value.x },
+  //     { translateY: offset.value.y },
+  //     {
+  //       rotateZ: rotation.value,
+  //     },
+  //     {
+  //       scale: scale.value,
+  //     },
+  //   ]);
+  // };
 
-  useSharedValueEffect(() => {
-    // console.log("offset");
-    setMatrix();
-  }, offset);
+  // useSharedValueEffect(() => {
+  //   setMatrix();
+  // }, offset);
 
-  useSharedValueEffect(() => {
-    // console.log("scale");
-    setMatrix();
-  }, scale);
+  // useSharedValueEffect(() => {
+  //   setMatrix();
+  // }, scale);
 
-  useSharedValueEffect(() => {
-    // console.log("rotation");
-    setMatrix();
-  }, rotation);
-
-  const style = useAnimatedStyle(() => ({
-    position: "absolute",
-    left: x,
-    top: y,
-    width,
-    height,
-    backgroundColor: debug ? "rgba(100, 200, 300, 0.4)" : "transparent",
-    transform: [
-      { translateX: offset.value.x },
-      { translateY: offset.value.y },
-      { scale: scale.value },
-      { rotateZ: `${rotation.value}rad` },
-    ],
-  }));
+  // useSharedValueEffect(() => {
+  //   setMatrix();
+  // }, rotation);
 
   const dragGesture = Gesture.Pan()
     .averageTouches(true)
@@ -110,6 +72,17 @@ export const GestureHandlerV2 = ({
         x: e.translationX + start.value.x,
         y: e.translationY + start.value.y,
       };
+
+      matrix.value = processTransform3d([
+        { translateX: offset.value.x },
+        { translateY: offset.value.y },
+        {
+          rotateZ: rotation.value,
+        },
+        {
+          scale: scale.value,
+        },
+      ]);
     })
     .onEnd(() => {
       start.value = {
@@ -121,6 +94,16 @@ export const GestureHandlerV2 = ({
   const zoomGesture = Gesture.Pinch()
     .onUpdate((event) => {
       scale.value = savedScale.value * event.scale;
+      matrix.value = processTransform3d([
+        { translateX: offset.value.x },
+        { translateY: offset.value.y },
+        {
+          rotateZ: rotation.value,
+        },
+        {
+          scale: scale.value,
+        },
+      ]);
     })
     .onEnd(() => {
       savedScale.value = scale.value;
@@ -129,6 +112,16 @@ export const GestureHandlerV2 = ({
   const rotateGesture = Gesture.Rotation()
     .onUpdate((event) => {
       rotation.value = savedRotation.value + event.rotation;
+      matrix.value = processTransform3d([
+        { translateX: offset.value.x },
+        { translateY: offset.value.y },
+        {
+          rotateZ: rotation.value,
+        },
+        {
+          scale: scale.value,
+        },
+      ]);
     })
     .onEnd(() => {
       savedRotation.value = rotation.value;
@@ -150,6 +143,21 @@ export const GestureHandlerV2 = ({
       Gesture.Simultaneous(zoomGesture, rotateGesture)
     )
   );
+
+  const style = useAnimatedStyle(() => ({
+    position: "absolute",
+    left: x,
+    top: y,
+    width,
+    height,
+    backgroundColor: debug ? "rgba(100, 200, 300, 0.4)" : "transparent",
+    transform: [
+      { translateX: offset.value.x },
+      { translateY: offset.value.y },
+      { scale: scale.value },
+      { rotateZ: `${rotation.value}rad` },
+    ],
+  }));
 
   return (
     <GestureDetector gesture={composed}>
