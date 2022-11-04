@@ -113,14 +113,14 @@ export const Stickers = () => {
           onTouch={touchHandle}
         >
           {elementComponents}
-          <HelloSticker matrix={helloMatrix} />
+          {/* <HelloSticker matrix={helloMatrix} /> */}
           <LocationSticker font={font} matrix={locationMatrix} />
         </Canvas>
 
-        <GestureHandler
+        {/* <GestureHandler
           matrix={helloMatrix}
           dimensions={HelloStickerDimensions}
-        />
+        /> */}
         <GestureHandlerV2
           matrix={locationMatrix}
           dimensions={LocationStickerDimensions}

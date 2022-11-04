@@ -14,8 +14,8 @@ import {
 } from "@shopify/react-native-skia";
 
 const x = 32;
-const y = 200;
-const width = 200;
+const y = 300;
+const width = 300;
 const height = 75;
 export const LocationStickerDimensions = rect(x, y, width, height);
 const path = Skia.Path.MakeFromSVGString(
@@ -50,7 +50,7 @@ export const LocationSticker = ({ matrix, font }: LocationStickerProps) => {
             end={vec(100, 0)}
             colors={["#2803E5", "#911CAE"]}
           />
-          <Text text="Zürich" font={font} x={50} y={45} />
+          <Text text="KhangTest" font={font} x={50} y={45} />
         </Group>
       </Group>
     </Group>
