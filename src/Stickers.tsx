@@ -6,6 +6,7 @@ import {
   DashPathEffect,
   DiscretePathEffect,
   Group,
+  Image,
   Paint,
   Path,
   Skia,
@@ -98,8 +99,11 @@ export const Stickers = () => {
       }),
     [elements]
   );
+  const image = useImage(
+    "https://aws-image112.s3.ap-southeast-1.amazonaws.com/bafbb907-f5a4-451c-865a-04ad6db835af/202209230712388652_3.jpg"
+  );
 
-  const image = useImage(zurich);
+  // const image = useImage(zurich);
   const font = useFont(aveny, 56);
   if (!image || !font) {
     return null;
@@ -109,10 +113,20 @@ export const Stickers = () => {
     <SafeAreaView>
       <View>
         <Canvas
-          style={{ width, height, backgroundColor: "red" }}
+          style={{ width, height, backgroundColor: "white" }}
           onTouch={touchHandle}
         >
           {elementComponents}
+          {image && (
+            <Image
+              image={image}
+              fit="contain"
+              x={0}
+              y={0}
+              width={390}
+              height={390}
+            />
+          )}
           {/* <HelloSticker matrix={helloMatrix} /> */}
           <LocationSticker font={font} matrix={locationMatrix} />
         </Canvas>
